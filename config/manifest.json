@@ -1,0 +1,44 @@
+{
+  "js/chunk/0.js": "/public/js/chunk/0.js",
+  "app/app.js": "/public/js/app/app.js",
+  "common.js": "/public/js/common.js",
+  "img/loading.gif": "/public/img/loading.gif",
+  "vendor.js": "/public/js/vendor.js",
+  "deps": {
+    "js/chunk/0.js": {
+      "js": [
+        "/public/js/vendor.js",
+        "/public/js/common.js",
+        "/public/js/chunk/0.js"
+      ],
+      "css": []
+    },
+    "app/app.js": {
+      "js": [
+        "/public/js/vendor.js",
+        "/public/js/common.js",
+        "/public/js/app/app.js"
+      ],
+      "css": []
+    },
+    "common.js": {
+      "js": [
+        "/public/js/common.js",
+        "/public/js/common.js"
+      ],
+      "css": []
+    },
+    "vendor.js": {
+      "js": [
+        "/public/js/common.js",
+        "/public/js/vendor.js"
+      ],
+      "css": []
+    }
+  },
+  "info": {
+    "publicPath": "/public/",
+    "buildPath": "public",
+    "mapped": true
+  }
+}
