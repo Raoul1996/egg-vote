@@ -9,6 +9,7 @@ koa-vote 使用 egg 重构版本
 see [egg docs][egg] for more detail.
 
 ## 开发日志
+# 20180216
 - egg 跨域问题解决办法
     1. 在 [plugin.js](config/plugin.js) 中开启 `egg-cors` 插件
     2. 在 `config.${env}.js` 中配置白名单，注意域名不需要添加 http && https 前缀

@@ -49,7 +49,7 @@ module.exports = app => {
     // 是否加载到 app 上，默认开启
     app: true,
     // 是否加载到 agent 上，默认关闭
-    agent: false
+    agent: true
   }
   exports.middleware = ['access',
     'errorHandler']
@@ -71,8 +71,9 @@ module.exports = app => {
     algorithm: 'RS256',
     enable: true,
     match(ctx) {
-      const reg = /\/api|\/register|\/forget/i
-      return reg.test(ctx.get('url'))
+      // const reg = /\/api|\/register|\/forget/i
+      const reg = /\/register|\/forget/i
+      return reg.test(ctx.request.url)
     }
   }
   exports.rest = {
@@ -81,7 +82,7 @@ module.exports = app => {
     // authRequest: async ctx => {
     //   // A truthy value must be returned when authentication succeeds.
     //   // Otherwise the client will be responded with `401 Unauthorized`
-    //   return accessToken;
+    //   return accesstoken;
     // }
 
     // Specify the APIs for which authentication can be ignored.
@@ -101,12 +102,5 @@ module.exports = app => {
   exports.onerror = {
     errorPageUrl: (err, ctx) => ctx.errorPageUrl || '/500'
   }
-
-  // an accept detect function that mark all request with `x-requested-with=XMLHttpRequest` header accepts json.
-  function accepts(ctx) {
-    if (ctx.get('x-requested-with') === 'XMLHttpRequest') return 'json'
-    return 'html'
-  }
-
   return exports
 }

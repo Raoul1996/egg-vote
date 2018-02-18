@@ -1,16 +1,10 @@
 const Controller = require('egg').Controller
-const createRule = {
-  // mobile: 'string',
-  password: 'string',
-  email: 'string',
-  captcha: 'string'
-}
 
-class UserController extends Controller {
-  async index() {
+class VoteController extends Controller {
+  async list() {
     const {ctx} = this
     const {params: {id}} = ctx
-    const res = await ctx.service.user.find(id)
+    const res = await ctx.service.vote.list(id)
     ctx.body = res
   }
 
@@ -21,12 +15,6 @@ class UserController extends Controller {
       exp: app.config.jwt.exp
     }, app.config.jwt.secret)
     ctx.body = token
-  }
-
-  async loginAPi() {
-    const {ctx} = this
-    ctx.validate(createRule)
-    ctx.body = {test: 'mock'}
   }
 
   async register() {
@@ -50,4 +38,4 @@ class UserController extends Controller {
   }
 }
 
-module.exports = UserController
+module.exports = VoteController

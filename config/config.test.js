@@ -1,4 +1,4 @@
-module.exports = app => {
+module.exports = () => {
   const exports = {}
 
   return exports

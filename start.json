@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "vote",
+      "script": "index.js",
+      "min_uptime": "60s",
+      "max_restarts": 30,
+      "exec_mode": "fork",
+      "error_file": "./logs/vote-err.log",
+      "out_file": "./logs/vote-out.log",
+      "watch": false
+    }
+  ]
+}

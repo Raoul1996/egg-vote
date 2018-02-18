@@ -1,54 +1,32 @@
-# vote-ssr 同构项目 Travis CI 自动部署到服务器配置文件
-# 项目使用的语言
 language: node_js
-# 语言的版本
 node_js:
 - '9'
 directories:
 - node_modules
-# 1. 在 install 之前执行的脚本
 before_install:
-# 创建 .ssh 目录，在用户目录下
 - mkdir -p  ~/.ssh/
-# 解密公钥
-- openssl aes-256-cbc -K $encrypted_c483afae2ea7_key -iv $encrypted_c483afae2ea7_iv
+- openssl aes-256-cbc -K $encrypted_eaa6087fa539_key -iv $encrypted_eaa6087fa539_iv
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
-# 降低目录权限
 - chmod 600 ~/.ssh/id_rsa
-# 将目标服务器（将要部署的服务器）的 ip 添加到 config 中，使其支持免密登陆
 - echo -e "Host 123.207.252.230 \n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-# 2. 安装项目依赖
 install:
 - npm install
-# 3. 在执行 script 中脚本之前执行
-before_script:
-# 4. 执行 script 中的脚本
+before_script: 
 script:
-# 这里一般会进行 test 或者代码覆盖率什么的，但是暂时先不用
-# 编译项目到 dist 文件夹
 - npm run build:prod
-# 5. 执行 script 脚本成功之后执行
-# 6. 最后执行
 after_success:
-
-# 压缩，为上传准备
-# 因为 egg 进行编译的时候会需要 ESLint 的配置文件，所以隐藏文件需要打包
-- tar -jcf ssr.tar.bz2 * .*
-# scp
-- scp ssr.tar.bz2 ubuntu@123.207.252.230:~/
-# 移动到 ssr 文件夹
-- ssh ubuntu@123.207.252.230 'mkdir -p /usr/share/nginx/html/ssr && mv ~/ssr.tar.bz2 /usr/share/nginx/html/ssr'
-# 解压并删除压缩包
-- ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/ssr && tar -jxf ssr.tar.bz2 && rm -rf ssr.tar.bz2'
-# 重启，让更改生效
+- tar -jcf egg.tar.bz2 * .*
+- scp egg.tar.bz2 ubuntu@123.207.252.230:~/
+- ssh ubuntu@123.207.252.230 'mkdir -p /usr/share/nginx/html/egg && mv ~/egg.tar.bz2
+  /usr/share/nginx/html/egg'
+- ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && tar -jxf egg.tar.bz2
+  && rm -rf egg.tar.bz2'
 - ssh ubuntu@123.207.252.230 'pm2 stop vote -f '
-- ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/ssr && npm run deploy:prod'
-# 查看 pm2 的状态
+- ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && npm run deploy:prod'
 - ssh ubuntu@123.207.252.230 'pm2 show vote'
-after_script:
-
+after_script: 
 branches:
   only:
   - master
 env:
-  global:
+  global: 

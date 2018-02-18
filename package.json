@@ -31,7 +31,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-egg-vote",
+    "start": "egg-scripts start --daemon --title=egg-server-egg-vote --port=12012",
     "stop": "egg-scripts stop --title=egg-server-egg-vote",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
@@ -40,7 +40,9 @@
     "cov": "egg-bin cov",
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
-    "autod": "autod"
+    "autod": "autod",
+    "start:test": "cross-env EGG_SERVER_ENV=test node index.js",
+    "deploy:prod": "cross-env EGG_SERVER_ENV=prod pm2 start start.json"
   },
   "ci": {
     "version": "8"

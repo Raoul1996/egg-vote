@@ -77,7 +77,7 @@
     // http://eslint.org/docs/rules/use-isnan
     "block-scoped-var": 0,
     // http://eslint.org/docs/rules/block-scoped-var
-    "consistent-return": 2,
+    "consistent-return": 0,
     // http://eslint.org/docs/rules/consistent-return
     "curly": [
       2,
@@ -141,7 +141,7 @@
     // http://eslint.org/docs/rules/no-octal
     "no-octal-escape": 2,
     // http://eslint.org/docs/rules/no-octal-escape
-    "no-param-reassign": 2,
+    "no-param-reassign": 0,
     // http://eslint.org/docs/rules/no-param-reassign
     "no-proto": 2,
     // http://eslint.org/docs/rules/no-proto
@@ -153,7 +153,7 @@
     // http://eslint.org/docs/rules/no-self-compare
     "no-sequences": 2,
     // http://eslint.org/docs/rules/no-sequences
-    "no-throw-literal": 2,
+    "no-throw-literal": 0,
     // http://eslint.org/docs/rules/no-throw-literal
     "no-with": 2,
     // http://eslint.org/docs/rules/no-with
