@@ -1,9 +1,17 @@
 const Controller = require('egg').Controller
-const createRule = {
+const loginRule = {
   // mobile: 'string',
-  password: 'string',
-  email: 'string',
-  captcha: 'string'
+  email: {type: 'string', required: true, allowEmpty: false},
+  pwd: {type: 'string', required: true, allowEmpty: false},
+  captcha: {type: 'string', required: false, allowEmpty: true}
+}
+const registerRule = {
+  name: {type: 'string', required: true, allowEmpty: false},
+  email: {type: 'string', required: true, allowEmpty: false},
+  mobile: {type: 'string', required: true, allowEmpty: false},
+  pwd: {type: 'string', required: true, allowEmpty: false},
+  confirm: {type: 'string', required: true, allowEmpty: false},
+  captcha: {type: 'string', required: false, allowEmpty: true}
 }
 
 class UserController extends Controller {
@@ -11,10 +19,10 @@ class UserController extends Controller {
     const {ctx} = this
     const {params: {id}} = ctx
     const res = await ctx.service.user.find(id)
-    ctx.body = res
+    ctx.helper.success({ctx, res})
   }
 
-  async login() {
+  async jwt() {
     const {app, ctx} = this
     const token = app.jwt.sign({
       data: 27,
@@ -23,14 +31,39 @@ class UserController extends Controller {
     ctx.body = token
   }
 
-  async loginAPi() {
-    const {ctx} = this
-    ctx.validate(createRule)
-    ctx.body = {test: 'mock'}
+  async login() {
+    const {ctx, service, app} = this
+    ctx.validate(loginRule)
+    const payload = ctx.request.body
+    const res = await service.user.login(payload)
+    if (res && res.id) {
+      res.token = app.jwt.sign({
+        data: res.id,
+        exp: app.config.jwt.exp
+      }, app.config.jwt.secret)
+      ctx.helper.success({ctx, res})
+    } else {
+      ctx.helper.fail({ctx, res, code: 10001})
+    }
   }
 
   async register() {
-    this.ctx.body = {test: 'mock'}
+    const {ctx, service, app} = this
+    ctx.validate(registerRule)
+    const {name, email, mobile, pwd, confirm} = ctx.request.body
+    if (pwd !== confirm) {
+      ctx.helper.fail({ctx, res: '密码不匹配', code: 10002})
+    }
+    const res = await service.user.register({name, email, mobile, pwd})
+    if (res && res.insertId) {
+      res.token = app.jwt.sign({
+        data: res.id,
+        exp: app.config.jwt.exp
+      }, app.config.jwt.secret)
+      ctx.helper.success({ctx, res})
+    } else {
+      ctx.helper.fail({ctx, res})
+    }
   }
 
   async forget() {

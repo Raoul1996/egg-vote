@@ -14,7 +14,8 @@
     "egg-scripts": "^2.5.1",
     "egg-validate": "^1.0.0",
     "ip": "^1.1.5",
-    "koa-compress": "^2.0.0"
+    "koa-compress": "^2.0.0",
+    "moment": "^2.20.1"
   },
   "devDependencies": {
     "autod": "^3.0.1",

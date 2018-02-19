@@ -13,9 +13,17 @@ module.exports = () => {
         : err.message
 
       // 从 error 对象上读出各个属性，设置到响应中
-      ctx.body = {error}
+      if (status <= 300 && status >= 200) {
+        ctx.body = {
+          code: err.code || null,
+          data: err.data || null,
+          error: error
+        }
+      } else {
+        ctx.body = error
+      }
       if (status === 422) {
-        ctx.body.detail = err.errors
+        ctx.body.detail = error
       }
       ctx.status = status
     }

@@ -2,14 +2,11 @@
 
 koa-vote 使用 egg 重构版本
 
-## QuickStart
-
-<!-- add docs here for user -->
-
-see [egg docs][egg] for more detail.
+## 接口文档
+- [POSTMAN](https://documenter.getpostman.com/view/3083800/egg-vote/RVfyAp5B)
 
 ## 开发日志
-# 20180216
+### 20180216
 - egg 跨域问题解决办法
     1. 在 [plugin.js](config/plugin.js) 中开启 `egg-cors` 插件
     2. 在 `config.${env}.js` 中配置白名单，注意域名不需要添加 http && https 前缀
@@ -24,21 +21,8 @@ see [egg docs][egg] for more detail.
     6. 将 jwt 解密之后的内容挂载到 `ctx.state.user` 上，方便对用户进行标识，思路源于 koa-jwt 的实现
     7. 一定不要使用 jwt 存放敏感信息，原因可以查看我翻译的文章
 - 使用 egg-jwt 文档中指定的方式进行使用
-
-### Development
-
-```bash
-$ npm i
-$ npm run dev
-$ open http://localhost:7001/
-```
-
-### Deploy
-
-```bash
-$ npm start
-$ npm stop
-```
+### 20180219
+- login register 接口重构
 
 ### npm scripts
 

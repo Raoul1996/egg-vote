@@ -16,11 +16,6 @@ module.exports = app => {
   exports.view = {
     cache: false
   }
-
-  exports.vuessr = {
-    layout: path.join(app.baseDir, 'app/web/view/layout.html')
-  }
-
   exports.logger = {
     consoleLevel: 'DEBUG',
     dir: path.join(app.baseDir, 'logs')
@@ -58,7 +53,7 @@ module.exports = app => {
   }
   exports.security = {
     csrf: {
-      enable: true
+      enable: false
     },
     xssProtection: {
       enable: true
@@ -102,5 +97,11 @@ module.exports = app => {
   exports.onerror = {
     errorPageUrl: (err, ctx) => ctx.errorPageUrl || '/500'
   }
+  exports.bizerror = {
+    breakDefault: false, // disable default error handler
+    sendClientAllParams: false, // return error bizParams to user
+    interceptAllError: false // handle all exception, not only bizError exception
+  }
+
   return exports
 }

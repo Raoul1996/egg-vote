@@ -1,19 +1,52 @@
 const Service = require('egg').Service
+const {cryptoPwd} = require('../utils/pass')
 
 class UserService extends Service {
   // constructor(ctx) {
   //   super(ctx)
   // }
-
-  async find(uid) {
-    // 假如 我们拿到用户 id 从数据库获取用户详细信息
+  async login(payload) {
+    const {ctx} = this
     try {
-      const {id, email, name} = await this.app.mysql.get('users', {id: uid})
-      return {id, email, name}
+      const {id, name, mobile, email, avatar, salt, pwd} = await this.findByEmail(payload.email)
+      if (!id) {
+        ctx.throw(404, 'user not found')
+      }
+      if (pwd !== cryptoPwd(payload.pwd, salt)) {
+        ctx.throw(404, 'password is not match')
+      }
+      return {id, name, mobile, email, avatar}
     } catch (e) {
-      this.ctx.throwBizError('USER_NOT_FOUND', e, {bizError: true})
+      throw e
     }
+  }
+
+  async register(payload) {
+    const {ctx, app} = this
+    try {
+      const isExist = await this.findByEmail(payload.email)
+      if (isExist) {
+        ctx.throw('user is exist')
+      }
+      payload.pwd = cryptoPwd(payload.pwd)
+      const {insertId} = await app.mysql.insert('users', payload)
+      const {id, name, mobile, email, avatar} = await this.findById(insertId)
+      return {id, name, mobile, email, avatar}
+    } catch (e) {
+      throw e
+    }
+  }
+
+  async findByEmail(email) {
+    const {app} = this
+    return await app.mysql.get('users', {email: email})
+  }
+
+  async findById(id) {
+    const {app} = this
+    return await app.mysql.get('users', {id: id})
   }
 }
 
-module.exports = UserService
+module
+  .exports = UserService

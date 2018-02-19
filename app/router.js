@@ -11,6 +11,7 @@ module.exports = app => {
     .get('/api/article/:id', controller.app.detail)
     .get('/user/:id', controller.user.index)
     .post('/login', controller.user.login)
-    .get('/login', controller.user.login)
+    .post('/register', controller.user.register)
+    .get('/jwt', controller.user.jwt)
     .get('/api/list', controller.vote.list)
 }

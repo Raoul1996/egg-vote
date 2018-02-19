@@ -25,6 +25,6 @@ exports.passportGithub = {
   package: 'egg-passport-github'
 }
 exports.bizerror = {
-  enable: true,
-  package: 'egg-bizerror',
-};
+  enable: false,
+  package: 'egg-bizerror'
+}
