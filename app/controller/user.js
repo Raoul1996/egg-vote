@@ -16,54 +16,44 @@ const registerRule = {
 
 class UserController extends Controller {
   async index() {
-    const {ctx} = this
-    const {params: {id}} = ctx
-    const res = await ctx.service.user.find(id)
-    ctx.helper.success({ctx, res})
-  }
-
-  async jwt() {
-    const {app, ctx} = this
-    const token = app.jwt.sign({
-      data: 27,
-      exp: app.config.jwt.exp
-    }, app.config.jwt.secret)
-    ctx.body = token
+    const {ctx, service} = this
+    const {id} = ctx.state.user
+    const res = await service.user.info({id: id})
+    if (res && res.id) {
+      ctx.helper.success({ctx, res})
+      return
+    }
+    ctx.helper.fail({ctx, res, code: 10003})
   }
 
   async login() {
-    const {ctx, service, app} = this
+    const {ctx, service} = this
     ctx.validate(loginRule)
     const payload = ctx.request.body
     const res = await service.user.login(payload)
     if (res && res.id) {
-      res.token = app.jwt.sign({
-        data: res.id,
-        exp: app.config.jwt.exp
-      }, app.config.jwt.secret)
+      res.token = this.jwt(res.id)
       ctx.helper.success({ctx, res})
-    } else {
-      ctx.helper.fail({ctx, res, code: 10001})
+      return
     }
+    ctx.helper.fail({ctx, res, code: 10001})
   }
 
   async register() {
-    const {ctx, service, app} = this
+    const {ctx, service} = this
     ctx.validate(registerRule)
     const {name, email, mobile, pwd, confirm} = ctx.request.body
     if (pwd !== confirm) {
       ctx.helper.fail({ctx, res: '密码不匹配', code: 10002})
+      return
     }
     const res = await service.user.register({name, email, mobile, pwd})
-    if (res && res.insertId) {
-      res.token = app.jwt.sign({
-        data: res.id,
-        exp: app.config.jwt.exp
-      }, app.config.jwt.secret)
+    if (res && res.id) {
+      res.token = this.jwt(res.id)
       ctx.helper.success({ctx, res})
-    } else {
-      ctx.helper.fail({ctx, res})
+      return
     }
+    ctx.helper.fail({ctx, res})
   }
 
   async forget() {
@@ -79,7 +69,25 @@ class UserController extends Controller {
   }
 
   async captcha() {
-    this.ctx.body = {test: 'mock'}
+    const {ctx, service} = this
+    const {captcha, txt} = await service.user.ccap()
+    ctx.body = captcha
+    ctx.type = 'image/png'
+    ctx.session.captcha = txt
+  }
+
+  async txt() {
+    const {ctx} = this
+    ctx.body = ctx.session.captcha
+  }
+
+  jwt(id) {
+    const {app} = this
+    const token = app.jwt.sign({
+      id: id,
+      exp: app.config.jwt.exp
+    }, app.config.jwt.secret)
+    return token
   }
 }
 

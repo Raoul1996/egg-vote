@@ -21,7 +21,7 @@ after_success:
   /usr/share/nginx/html/egg'
 - ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && tar -jxf egg.tar.bz2
   && rm -rf egg.tar.bz2'
-- ssh ubuntu@123.207.252.230 ''cd /usr/share/nginx/html/egg && npm run stop'
+- ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && npm run stop'
 - ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && npm run start'
 # - ssh ubuntu@123.207.252.230 'pm2 show vote'
 after_script: 

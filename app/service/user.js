@@ -1,5 +1,7 @@
 const Service = require('egg').Service
 const {cryptoPwd} = require('../utils/pass')
+const {captchaConf} = require('../../config/config.default')
+const ccap = require('ccap')(captchaConf)
 
 class UserService extends Service {
   // constructor(ctx) {
@@ -37,6 +39,20 @@ class UserService extends Service {
     }
   }
 
+  async info(payload) {
+    try {
+      const {id, email, mobile, avatar} = await this.findById(payload.id)
+      return {id, email, mobile, avatar}
+    } catch (e) {
+      throw e
+    }
+  }
+
+  async ccap() {
+    const ary = ccap.get()
+    return {captcha: ary[1], txt: ary[0]}
+  }
+
   async findByEmail(email) {
     const {app} = this
     return await app.mysql.get('users', {email: email})
@@ -48,5 +64,4 @@ class UserService extends Service {
   }
 }
 
-module
-  .exports = UserService
+module.exports = UserService

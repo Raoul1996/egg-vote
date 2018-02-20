@@ -24,6 +24,8 @@ exports.passportGithub = {
   enable: true,
   package: 'egg-passport-github'
 }
+exports.session = true
+
 exports.bizerror = {
   enable: false,
   package: 'egg-bizerror'

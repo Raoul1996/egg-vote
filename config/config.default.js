@@ -67,7 +67,7 @@ module.exports = app => {
     enable: true,
     match(ctx) {
       // const reg = /\/api|\/register|\/forget/i
-      const reg = /\/register|\/forget/i
+      const reg = /\/update|\/user|\/vote/i
       return reg.test(ctx.request.url)
     }
   }
@@ -97,11 +97,17 @@ module.exports = app => {
   exports.onerror = {
     errorPageUrl: (err, ctx) => ctx.errorPageUrl || '/500'
   }
-  exports.bizerror = {
-    breakDefault: false, // disable default error handler
-    sendClientAllParams: false, // return error bizParams to user
-    interceptAllError: false // handle all exception, not only bizError exception
+  // exports.bizerror = {
+  //   breakDefault: false, // disable default error handler
+  //   sendClientAllParams: false, // return error bizParams to user
+  //   interceptAllError: false // handle all exception, not only bizError exception
+  // }
+  exports.captchaConf = {
+    width: 256,
+    height: 40,
+    offset: 40,
+    quality: 100,
+    fontsize: 36
   }
-
   return exports
 }
