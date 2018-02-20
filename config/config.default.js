@@ -141,5 +141,6 @@ module.exports = app => {
     quality: 100,
     fontsize: 36
   }
+  exports.multipart = {}
   return exports
 }

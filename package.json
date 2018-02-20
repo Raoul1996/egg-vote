@@ -9,6 +9,7 @@
     "egg-bizerror": "^2.1.2",
     "egg-cors": "^2.0.0",
     "egg-jwt": "^2.2.1",
+    "egg-multipart": "^2.0.0",
     "egg-mysql": "^3.0.0",
     "egg-passport": "^2.0.1",
     "egg-passport-github": "^1.0.0",
@@ -18,7 +19,9 @@
     "egg-validate": "^1.0.0",
     "ip": "^1.1.5",
     "koa-compress": "^2.0.0",
-    "moment": "^2.20.1"
+    "moment": "^2.20.1",
+    "stream-to-array": "^2.3.0",
+    "stream-wormhole": "^1.0.3"
   },
   "devDependencies": {
     "autod": "^3.0.1",

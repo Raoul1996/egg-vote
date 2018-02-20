@@ -29,7 +29,7 @@ koa-vote 使用 egg 重构版本
 - 完成 jwt 部分，并使用 jwt 记录用户 id，详见 `/user` 路由
 - 完成图形验证码部分，使用 ccap 并结合 session 进行使用
 - 使用 redis 拓展 session，但是目前只有 captcha 部分使用到了 session，所以没有绝对的必要使用 redis， 仅仅只是为了学习
-
+- 完成文件上传功能，并返回静态文件地址
 ### npm scripts
 
 - Use `npm run lint` to check code style.
