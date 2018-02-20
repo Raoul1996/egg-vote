@@ -3,7 +3,6 @@ const fs = require('fs')
 const cert = fs.readFileSync(__dirname + '/../id_rsa.enc')
 module.exports = app => {
   const exports = {}
-
   // exports.siteFile = {
   //   '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico'))
   // }
@@ -25,7 +24,31 @@ module.exports = app => {
     prefix: '/public/',
     dir: path.join(app.baseDir, '/public/')
   }
+  exports.session = {
+    maxAge: 24 * 3600 * 1000, // ms
+    key: 'lost heart',
+    httpOnly: true,
+    encrypt: true
+  }
+  exports.sessionStore = {
+    async get(key) {
+      const res = await app.redis.get(key)
+      if (!res) return null
+      return JSON.parse(res)
+    },
 
+    async set(key, value, maxAge) {
+      // maxAge not present means session cookies
+      // we can't exactly know the maxAge and just set an appropriate value like one day
+      if (!maxAge) maxAge = 24 * 60 * 60 * 1000
+      value = JSON.stringify(value)
+      await app.redis.set(key, value, 'PX', maxAge)
+    },
+
+    async destroy(key) {
+      await app.redis.del(key)
+    }
+  }
   exports.keys = app.name + 'lost heart, lost soul'
   exports.mysql = {
     // 单数据库信息配置
@@ -44,6 +67,15 @@ module.exports = app => {
     // 是否加载到 app 上，默认开启
     app: true,
     // 是否加载到 agent 上，默认关闭
+    agent: true
+  }
+  exports.redis = {
+    client: {
+      host: '127.0.0.1',
+      port: '6379',
+      password: 'redisraoul',
+      db: '0'
+    },
     agent: true
   }
   exports.middleware = ['access',

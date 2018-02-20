@@ -81,13 +81,18 @@ class UserController extends Controller {
     ctx.body = ctx.session.captcha
   }
 
+  async redis() {
+    const {ctx, app} = this
+    await app.redis.set('foo', 'bar')
+    ctx.body = await app.redis.get('foo')
+  }
+
   jwt(id) {
     const {app} = this
-    const token = app.jwt.sign({
+    return app.jwt.sign({
       id: id,
       exp: app.config.jwt.exp
     }, app.config.jwt.secret)
-    return token
   }
 }
 

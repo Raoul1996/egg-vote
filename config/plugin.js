@@ -1,4 +1,5 @@
 exports.static = true
+exports.session = true
 exports.cors = {
   enable: true,
   package: 'egg-cors'
@@ -24,7 +25,15 @@ exports.passportGithub = {
   enable: true,
   package: 'egg-passport-github'
 }
-exports.session = true
+exports.sessionRedis = {
+  enable: true,
+  package: 'egg-session-redis'
+}
+
+exports.redis = {
+  enable: true,
+  package: 'egg-redis'
+}
 
 exports.bizerror = {
   enable: false,

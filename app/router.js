@@ -12,6 +12,7 @@ module.exports = app => {
     .get('/user/', controller.user.index)
     .get('/captcha', controller.user.captcha)
     .get('/txt', controller.user.txt)
+    .get('/redis', controller.user.redis)
     .post('/login', controller.user.login)
     .post('/register', controller.user.register)
     .post('/update', controller.user.update)
