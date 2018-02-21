@@ -1,6 +1,6 @@
 const Service = require('egg').Service
 const {cryptoPwd, getRandomSalt} = require('../utils/pass')
-const {captchaConf} = require('../../config/config.default')
+const {captchaConf} = require('../config')
 const ccap = require('ccap')(captchaConf)
 
 class UserService extends Service {

@@ -14,6 +14,7 @@
     "egg-mysql": "^3.0.0",
     "egg-passport": "^2.0.1",
     "egg-passport-github": "^1.0.0",
+    "egg-qiniu": "^1.0.2",
     "egg-redis": "^1.0.2",
     "egg-scripts": "^2.5.1",
     "egg-session-redis": "^1.0.0",
@@ -21,6 +22,7 @@
     "ip": "^1.1.5",
     "koa-compress": "^2.0.0",
     "moment": "^2.20.1",
+    "qiniu": "^7.1.2",
     "stream-to-array": "^2.3.0",
     "stream-wormhole": "^1.0.3"
   },
