@@ -4,6 +4,7 @@
   "description": "koa-vote 使用 egg 重构版本",
   "private": true,
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "ccap": "^0.6.10",
     "egg": "^2.3.0",
     "egg-bizerror": "^2.1.2",
