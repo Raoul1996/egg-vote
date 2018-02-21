@@ -14,7 +14,7 @@ const getRandomSalt = (start = 2, end = 5) => {
  * @param salt
  */
 const cryptoPwd = (password, salt) => {
-  let saltPass = password + salt || getRandomSalt()
+  let saltPass = password + (salt || getRandomSalt())
   const md5 = crypto.createHash('sha256')
   return md5.update(saltPass).digest('hex')
 }

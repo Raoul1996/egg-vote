@@ -8,9 +8,16 @@ const Controller = require('egg').Controller
 
 class FileController extends Controller {
   async avatar() {
-    const {ctx} = this
+    const {ctx, service} = this
     const {url, file} = await this.upload()
-    ctx.body = {url, file}
+    const payload = {url, file}
+    payload.id = ctx.state.user.id
+    const res = await service.user.avatar(payload)
+    if (res) {
+      ctx.helper.success({ctx, res: payload})
+      return
+    }
+    ctx.helper.fail({ctx, res: '头像存储失败', code: 10005})
   }
 
   async upload(name) {

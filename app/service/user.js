@@ -1,5 +1,5 @@
 const Service = require('egg').Service
-const {cryptoPwd} = require('../utils/pass')
+const {cryptoPwd, getRandomSalt} = require('../utils/pass')
 const {captchaConf} = require('../../config/config.default')
 const ccap = require('ccap')(captchaConf)
 
@@ -30,7 +30,10 @@ class UserService extends Service {
       if (isExist) {
         ctx.throw('user is exist')
       }
-      payload.pwd = cryptoPwd(payload.pwd)
+      // we need to store the salt value
+      payload.salt = getRandomSalt()
+      payload.pwd = cryptoPwd(payload.pwd, payload.salt)
+      payload.created_at = this.getNowTime()
       const {insertId} = await app.mysql.insert('users', payload)
       const {id, name, mobile, email, avatar} = await this.findById(insertId)
       return {id, name, mobile, email, avatar}
@@ -47,7 +50,16 @@ class UserService extends Service {
       throw e
     }
   }
-
+  async avatar(payload) {
+    const {app} = this
+    const row = {
+      id: payload.id,
+      avatar: payload.url,
+      updated_at: this.getNowTime()
+    }
+    const res = await app.mysql.update('users', row)
+    return res.affectedRows === 1
+  }
   async ccap() {
     const ary = ccap.get()
     return {captcha: ary[1], txt: ary[0]}
@@ -61,6 +73,10 @@ class UserService extends Service {
   async findById(id) {
     const {app} = this
     return await app.mysql.get('users', {id: id})
+  }
+
+  getNowTime() {
+    return this.app.mysql.literals.now
   }
 }
 

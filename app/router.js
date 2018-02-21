@@ -9,7 +9,7 @@ module.exports = app => {
   router.get('/', controller.home.index)
     .get('/api/article/list', controller.app.list)
     .get('/api/article/:id', controller.app.detail)
-    .get('/user/', controller.user.index)
+    .get('/user', controller.user.index)
     .get('/captcha', controller.user.captcha)
     .get('/txt', controller.user.txt)
     .get('/redis', controller.user.redis)
@@ -18,5 +18,5 @@ module.exports = app => {
     .post('/update', controller.user.update)
     .post('/forget', controller.user.forget)
     .get('/api/list', controller.vote.list)
-    .post('/avatar', controller.file.avatar)
+    .post('/user/avatar', controller.file.avatar)
 }
