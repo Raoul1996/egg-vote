@@ -134,13 +134,6 @@ module.exports = app => {
   //   sendClientAllParams: false, // return error bizParams to user
   //   interceptAllError: false // handle all exception, not only bizError exception
   // }
-  exports.captchaConf = {
-    width: 256,
-    height: 40,
-    offset: 40,
-    quality: 100,
-    fontsize: 36
-  }
   exports.multipart = {
     fileSize: '50mb',
     domainWhiteList: [// images
@@ -159,6 +152,7 @@ module.exports = app => {
       '.css', '.less',
       '.html', '.htm',
       '.xml',
+      '.pdf',
       // tar
       '.zip',
       '.gz', '.tgz', '.gzip',
