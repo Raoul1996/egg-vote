@@ -10,6 +10,15 @@ const mkdirsSync = (dirname) => {
     }
   }
 }
+const removeFile = (filename) => {
+  try {
+    fs.unlinkSync(filename)
+  } catch (e) {
+    if (e.errno === -2) throw ({status: 404, message: "文件不存在"})
+  }
+  // fs.unlinkSync(filename)
+}
 module.exports = {
-  mkdirsSync
+  mkdirsSync,
+  removeFile
 }

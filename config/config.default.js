@@ -99,7 +99,7 @@ module.exports = app => {
     enable: true,
     match(ctx) {
       // const reg = /\/api|\/register|\/forget/i
-      const reg = /\/update|\/user|\/upload|\/vote/i
+      const reg = /\/update|\/user|\/upload|\/file|\/vote/i
       return reg.test(ctx.request.url)
     }
   }

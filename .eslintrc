@@ -34,10 +34,7 @@
     // http://eslint.org/docs/rules/no-use-before-define
     "comma-dangle": 0,
     // http://eslint.org/docs/rules/comma-dangle
-    "no-cond-assign": [
-      2,
-      "always"
-    ],
+    "no-cond-assign": 0,
     // http://eslint.org/docs/rules/no-cond-assign
     "no-console": 1,
     // http://eslint.org/docs/rules/no-console
@@ -107,7 +104,7 @@
     // http://eslint.org/docs/rules/guard-for-in
     "no-caller": 2,
     // http://eslint.org/docs/rules/no-caller
-    "no-else-return": 2,
+    "no-else-return": 0,
     // http://eslint.org/docs/rules/no-else-return
     "no-eq-null": 2,
     // http://eslint.org/docs/rules/no-eq-null

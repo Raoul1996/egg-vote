@@ -19,5 +19,6 @@ module.exports = app => {
     .post('/forget', controller.user.forget)
     .get('/api/list', controller.vote.list)
     .post('/user/avatar', controller.file.avatar)
-    .post('/upload', controller.file.upload)
+    .post('/file/upload', controller.file.upload)
+    .post('/file/del', controller.file.del)
 }

@@ -32,6 +32,8 @@ koa-vote 使用 egg 重构版本
 - 完成文件上传功能，并返回静态文件地址
 ### 20180221 初六
 - 多个文件上传功能完成，并按照用户 id 进行独立存储
+- 多文件上传至七牛并返回外链地址
+- 删除本地public下的文件，并自定义异常处理中间件
 ### npm scripts
 
 - Use `npm run lint` to check code style.
