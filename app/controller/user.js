@@ -13,6 +13,19 @@ const registerRule = {
   confirm: {type: 'string', required: true, allowEmpty: false},
   captcha: {type: 'string', required: false, allowEmpty: true}
 }
+const forgetRule = {
+  email: {type: 'string', required: true, allowEmpty: false},
+  mobile: {type: 'string', required: true, allowEmpty: false},
+  captcha: {type: 'string', required: true, allowEmpty: false},
+  pwd: {type: 'string', required: true, allowEmpty: false},
+  confirm: {type: 'string', required: true, allowEmpty: false}
+}
+const updateRule = {
+  captcha: {type: 'string', required: true, allowEmpty: false},
+  pwd: {type: 'string', required: true, allowEmpty: false},
+  old: {type: 'string', required: true, allowEmpty: false},
+  confirm: {type: 'string', required: true, allowEmpty: false}
+}
 
 class UserController extends Controller {
   async index() {
@@ -53,15 +66,42 @@ class UserController extends Controller {
       ctx.helper.success({ctx, res})
       return
     }
-    ctx.helper.fail({ctx, res})
+    ctx.helper.fail({ctx, res, code: 9999})
   }
 
   async forget() {
-    this.ctx.body = {test: 'mock'}
+    const {ctx, service} = this
+    ctx.validate(forgetRule)
+    const {mobile, pwd, email, confirm, captcha} = ctx.request.body
+    if (pwd !== confirm) {
+      ctx.helper.fail({ctx, res: '密码不匹配', code: 10002})
+      return
+    }
+    // TODO: Validate captcha
+    const res = await service.user.forget({mobile, pwd, email})
+    if (res) {
+      ctx.helper.success({ctx, res: '密码重置成功'})
+      return
+    }
+    ctx.helper.fail({ctx, res, code: 9999})
   }
 
   async update() {
-    this.ctx.body = {test: 'mock'}
+    const {ctx, service} = this
+    ctx.validate(updateRule)
+    const {pwd, old, confirm, captcha} = ctx.request.body
+    const id = ctx.state.user.id
+    if (pwd !== confirm) {
+      ctx.helper.fail({ctx, res: '密码不匹配', code: 10002})
+      return
+    }
+    const res = await service.user.update({id, pwd, old})
+    console.log(res)
+    if (res) {
+      ctx.helper.success({ctx, res: '密码修改成功'})
+      return
+    }
+    ctx.helper.fail({ctx, res: '密码修改失败', code: 10006})
   }
 
   async send() {

@@ -27,7 +27,7 @@ class UserService extends Service {
     const {ctx, app} = this
     try {
       const isExist = await this.findByEmail(payload.email)
-      if (isExist) {
+      if (isExist && isExist.id) {
         ctx.throw('user is exist')
       }
       // we need to store the salt value
@@ -42,6 +42,53 @@ class UserService extends Service {
     }
   }
 
+  async forget(payload) {
+    const {ctx, app: {mysql}} = this
+    try {
+      const isExist = await this.findByEmail(payload.email)
+      if (!(isExist && isExist)) {
+        ctx.throw(404, 'user is nor exist!')
+      }
+      const salt = getRandomSalt()
+      const row = {
+        id: isExist.id,
+        salt: salt,
+        pwd: cryptoPwd(payload.pwd, salt),
+        updated_at: this.getNowTime()
+      }
+      const res = await mysql.update('users', row)
+      return res.affectedRows === 1
+    } catch (e) {
+      throw e
+    }
+  }
+
+  async update(payload) {
+    const {ctx, app: {mysql}} = this
+    const newSalt = getRandomSalt()
+    const row = {
+      id: payload.id,
+      salt: newSalt,
+      pwd: cryptoPwd(payload.pwd, newSalt),
+      updated_at: this.getNowTime()
+    }
+    try {
+      const {salt, pwd} = await this.findById(payload.id)
+      if (!(cryptoPwd(payload.old, salt) === pwd)) {
+        ctx.throw(422, '原密码错误')
+        return false
+      }
+      if (cryptoPwd(payload.pwd, salt) === pwd) {
+        ctx.throw(422, '新旧密码不能相同')
+        return false
+      }
+      const res = await mysql.update('users', row)
+      return res.affectedRows === 1
+    } catch (e) {
+      throw e
+    }
+  }
+
   async info(payload) {
     try {
       const {id, email, mobile, avatar} = await this.findById(payload.id)
@@ -50,6 +97,7 @@ class UserService extends Service {
       throw e
     }
   }
+
   async avatar(payload) {
     const {app} = this
     const row = {
@@ -60,6 +108,7 @@ class UserService extends Service {
     const res = await app.mysql.update('users', row)
     return res.affectedRows === 1
   }
+
   async ccap() {
     const ary = ccap.get()
     return {captcha: ary[1], txt: ary[0]}

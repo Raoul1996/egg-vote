@@ -26,12 +26,12 @@ exports.passportGithub = {
   package: 'egg-passport-github'
 }
 exports.sessionRedis = {
-  enable: true,
+  enable: false,
   package: 'egg-session-redis'
 }
 
 exports.redis = {
-  enable: true,
+  enable: false,
   package: 'egg-redis'
 }
 

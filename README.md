@@ -34,6 +34,8 @@ koa-vote 使用 egg 重构版本
 - 多个文件上传功能完成，并按照用户 id 进行独立存储
 - 多文件上传至七牛并返回外链地址
 - 删除本地public下的文件，并自定义异常处理中间件
+### 2018022 初七
+- 密码忘记于重置接口
 ### npm scripts
 
 - Use `npm run lint` to check code style.
