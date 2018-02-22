@@ -36,6 +36,8 @@ koa-vote 使用 egg 重构版本
 - 删除本地public下的文件，并自定义异常处理中间件
 ### 2018022 初七
 - 密码忘记于重置接口
+- 删除文件并进行数据库同步记录
+- 获取七牛提供的文件信息
 ### npm scripts
 
 - Use `npm run lint` to check code style.

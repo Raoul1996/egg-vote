@@ -21,4 +21,5 @@ module.exports = app => {
     .post('/user/avatar', controller.file.avatar)
     .post('/file/upload', controller.file.upload)
     .post('/file/del', controller.file.del)
+    .post('/file/info', controller.file.info)
 }

@@ -6,8 +6,6 @@ const sendToWormhole = require('stream-wormhole')
 const awaitWriteStream = require('await-stream-ready').write
 const {getRandomSalt} = require('../utils/pass')
 const {mkdirsSync, removeFile} = require('../utils/file')
-const {qiniuConfig} = require('../config')
-const qiniu = require('qiniu')
 const Controller = require('egg').Controller
 
 class FileController extends Controller {
@@ -31,11 +29,21 @@ class FileController extends Controller {
   }
 
   async del() {
-    const {ctx, app} = this
+    const {ctx, app, service} = this
+    const {id} = ctx.state.user
     const {file} = ctx.request.body
     const namespace = `${ctx.state.user.id}`
     removeFile(path.join(app.config.static.dir, namespace + '', file))
+    await service.file.del({id, file})
     ctx.helper.success({ctx, res: "删除成功"})
+  }
+
+  async info() {
+    const {ctx, service} = this
+    const {id} = ctx.state.user
+    const {key} = ctx.request.body
+    const res = await service.file.info({id, key})
+    ctx.helper.success({ctx, res})
   }
 
   // always use to upload a single file
@@ -101,9 +109,10 @@ class FileController extends Controller {
         encoding: stream.encoding
       }
       if (upload) {
-        const qiniuRes = await this.upload2Qiniu(res, target)
+        const qiniuRes = await service.file.upload2Qiniu(res, target)
         // removeFile(target)
-        res.qiniu = qiniuRes
+        res.qiniu = qiniuRes.url
+        res.key = qiniuRes.key
         const upload = await service.file.save(res)
         res.upload = upload
       }
@@ -113,47 +122,6 @@ class FileController extends Controller {
       fields: parts.field,
       files
     }
-  }
-
-  /**
-   * 传入文件的真实地址等元素构成的对象，并根据文件的绝对路径将其上传至七牛
-   * @param payload {Object} 包含文件真实访问地址，真实名称的对象
-   * @returns {Promise<string>} 七牛对应的公开链接
-   */
-  async upload2Qiniu(payload, path) {
-    // TODO: Config the https domain
-    const ak = qiniuConfig.ak
-    const sk = qiniuConfig.sk
-    const mac = new qiniu.auth.digest.Mac(ak, sk)
-    // const keyToOverwrite = payload.realname
-    const options = {
-      // scope: `${qiniuConfig.bucket}:${keyToOverwrite}`,
-      scope: `${qiniuConfig.bucket}`,
-      expires: 24 * 60 * 60
-    }
-    const putPolicy = new qiniu.rs.PutPolicy(options)
-    const uploadToken = putPolicy.uploadToken(mac)
-    const config = new qiniu.conf.Config()
-    // 华东区对应的是z0
-    config.zone = qiniu.zone.Zone_z0
-    const localFile = path
-    const formUploader = new qiniu.form_up.FormUploader(config)
-    const putExtra = new qiniu.form_up.PutExtra()
-    const key = payload.realname
-    return new Promise((resolved, reject) => {
-      formUploader.putFile(uploadToken, key, localFile, putExtra,
-        function (respErr, respBody, respInfo) {
-          if (respErr) {
-            reject(respErr)
-          }
-          if (respInfo.statusCode === 200) {
-            resolved(respBody)
-          } else {
-            resolved(respBody)
-          }
-        })
-      // 拼接出真实的访问链接并返回
-    }).then(res => qiniuConfig.baseUrl + encodeURI(res.key))
   }
 }
 
