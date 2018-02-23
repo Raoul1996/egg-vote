@@ -1,6 +1,6 @@
 const qiniuConfig = {
-  ak: '_axVsGWeZ58ICjrohdqGci-SYvFj5a5MyDVhcYaL',
-  sk: 'lwDeOoD5tpZbpMJ50ZMQCg9FTYAs0BwF9sDSIKZy',
+  ak: process.env.ak,
+  sk: process.env.sk,
   bucket: 'vote',
   baseUrl: 'http://p4htepdga.bkt.clouddn.com/'
 }

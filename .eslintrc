@@ -96,7 +96,7 @@
       1,
       {
         // http://eslint.org/docs/rules/max-len
-        "code": 100,
+        "code": 1000,
         "tabWidth": 2
       }
     ],

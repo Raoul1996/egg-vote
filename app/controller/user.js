@@ -120,7 +120,25 @@ class UserController extends Controller {
   }
 
   async send() {
-    this.ctx.body = {test: 'mock'}
+    const {ctx, service} = this
+    const {mail} = ctx.request.body
+    const {msg} = await service.user.send({mail})
+    // 这里由于组件的封装，所以和其他部分不太一样
+    if (msg && msg.header) {
+      ctx.helper.success({ctx, res: msg})
+      return
+    }
+    ctx.helper.fail({ctx, res: msg, code: 10011})
+  }
+
+  async verify() {
+    const {ctx, service} = this
+    const res = await service.user.verify(ctx.req.query.active)
+    if (res) {
+      ctx.helper.success({ctx, res: '用户激活成功'})
+      return
+    }
+    ctx.helper.fail({ctx, res: '用户激活失败', code: 10012})
   }
 
   async captcha() {

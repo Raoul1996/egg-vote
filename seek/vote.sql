@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 22/02/2018 21:53:25
+ Date: 23/02/2018 17:19:20
 */
 
 SET NAMES utf8mb4;
@@ -231,10 +231,12 @@ CREATE TABLE `users` (
   `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mobile` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `pwd` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `salt` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `salt` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `active_code` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `exp` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

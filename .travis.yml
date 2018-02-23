@@ -11,7 +11,7 @@ before_install:
 - echo -e "Host 123.207.252.230 \n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 install:
 - npm install
-before_script: 
+before_script:
 script:
  - npm run lint
 after_success:
@@ -24,9 +24,9 @@ after_success:
 - ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && npm run stop'
 - ssh ubuntu@123.207.252.230 'cd /usr/share/nginx/html/egg && npm run start'
 # - ssh ubuntu@123.207.252.230 'pm2 show vote'
-after_script: 
+after_script:
 branches:
   only:
   - master
 env:
-  global: 
+  global:

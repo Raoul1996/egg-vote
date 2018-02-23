@@ -17,9 +17,11 @@ module.exports = app => {
     .post('/register', controller.user.register)
     .post('/update', controller.user.update)
     .post('/forget', controller.user.forget)
-    .get('/api/list', controller.vote.list)
+    .post('/send', controller.user.send)
+    .get('/verify', controller.user.verify)
     .post('/user/avatar', controller.file.avatar)
     .post('/file/upload', controller.file.upload)
     .post('/file/del', controller.file.del)
     .post('/file/info', controller.file.info)
+    .get('/api/list', controller.vote.list)
 }

@@ -30,14 +30,22 @@ koa-vote 使用 egg 重构版本
 - 完成图形验证码部分，使用 ccap 并结合 session 进行使用
 - 使用 redis 拓展 session，但是目前只有 captcha 部分使用到了 session，所以没有绝对的必要使用 redis， 仅仅只是为了学习
 - 完成文件上传功能，并返回静态文件地址
+
 ### 20180221 初六
 - 多个文件上传功能完成，并按照用户 id 进行独立存储
 - 多文件上传至七牛并返回外链地址
 - 删除本地public下的文件，并自定义异常处理中间件
-### 2018022 初七
+
+### 20180222 初七
 - 密码忘记于重置接口
 - 删除文件并进行数据库同步记录
 - 获取七牛提供的文件信息
+
+### 20180223 初八
+- 发送验证邮件并激活
+- 向 [egg-mail](https://github.com/zhouzhi3859/egg-mail) plugin 发 pr
+- [package.json](package.json) 中指定从 github 拉取 egg-mail 依赖
+
 ### npm scripts
 
 - Use `npm run lint` to check code style.

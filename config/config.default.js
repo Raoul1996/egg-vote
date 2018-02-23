@@ -99,7 +99,7 @@ module.exports = app => {
     enable: true,
     match(ctx) {
       // const reg = /\/api|\/register|\/forget/i
-      const reg = /\/update|\/user|\/upload|\/file|\/vote/i
+      const reg = /\/update|\/user|\/upload|\/file|\/send|\/vote/i
       return reg.test(ctx.request.url)
     }
   }
@@ -161,6 +161,13 @@ module.exports = app => {
       '.mp4',
       '.avi'
     ]
+  }
+  exports.email = {
+    username: '1259510125@qq.com',
+    password: process.env.qqpass,
+    host: 'smtp.qq.com',
+    port: 465,
+    sender: '1259510125@qq.com'
   }
   return exports
 }

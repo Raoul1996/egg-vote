@@ -39,3 +39,7 @@ exports.bizerror = {
   enable: false,
   package: 'egg-bizerror'
 }
+exports.email = {
+  enable: true,
+  package: 'egg-mail'
+}
