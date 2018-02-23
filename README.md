@@ -1,6 +1,12 @@
 # egg-vote
+[![Build Status](https://travis-ci.org/Raoul1996/egg-vote.svg?branch=master)](https://travis-ci.org/Raoul1996/egg-vote)
+[![bitHound Overall Score](https://www.bithound.io/github/Raoul1996/egg-vote/badges/score.svg)](https://www.bithound.io/github/Raoul1996/egg-vote)
+[![bitHound Dependencies](https://www.bithound.io/github/Raoul1996/egg-vote/badges/dependencies.svg)](https://www.bithound.io/github/Raoul1996/egg-vote/master/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/Raoul1996/egg-vote/badges/devDependencies.svg)](https://www.bithound.io/github/Raoul1996/egg-vote/master/dependencies/npm)
+[![bitHound Code](https://www.bithound.io/github/Raoul1996/egg-vote/badges/code.svg)](https://www.bithound.io/github/Raoul1996/egg-vote)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8d31fa28164dc4a47fce/maintainability)](https://codeclimate.com/github/Raoul1996/egg-vote/maintainability)
 
-koa-vote 使用 egg 重构版本
+> koa-vote 使用 egg 重构版本
 
 ## 接口文档
 - [POSTMAN](https://documenter.getpostman.com/view/3083800/egg-vote/RVfyAp5B)

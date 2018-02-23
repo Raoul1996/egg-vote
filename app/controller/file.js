@@ -14,7 +14,7 @@ class FileController extends Controller {
     const {url, file} = await this.buf()
     const payload = {url, file}
     payload.id = ctx.state.user.id
-    const res = await service.user.avatar(payload)
+    const res = await service.file.avatar(payload)
     if (res) {
       ctx.helper.success({ctx, res: payload})
       return

@@ -97,17 +97,6 @@ class UserService extends Service {
     }
   }
 
-  async avatar(payload) {
-    const {app} = this
-    const row = {
-      id: payload.id,
-      avatar: payload.url,
-      updated_at: this.getNowTime()
-    }
-    const res = await app.mysql.update('users', row)
-    return res.affectedRows === 1
-  }
-
   async ccap() {
     const ary = ccap.get()
     return {captcha: ary[1], txt: ary[0]}
