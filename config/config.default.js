@@ -136,6 +136,11 @@ module.exports = app => {
   // }
   exports.multipart = {
     fileSize: '50mb',
+    allowAvatarImg: [// images
+      '.jpg', '.jpeg', // image/jpeg
+      '.png', // image/png, image/x-png
+      '.gif'
+    ],
     domainWhiteList: [// images
       '.jpg', '.jpeg', // image/jpeg
       '.png', // image/png, image/x-png

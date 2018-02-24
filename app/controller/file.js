@@ -47,9 +47,13 @@ class FileController extends Controller {
   }
 
   // always use to upload a single file
-  async buf(name) {
-    const {ctx, app} = this
+  async buf(avatar = true, name) {
+    const {ctx, app, config} = this
     const stream = await ctx.getFileStream()
+    const ext = path.extname(stream.filename).toLowerCase()
+    if (avatar && !~config.multipart.allowAvatarImg.indexOf(ext)) {
+      ctx.throw(406, "图片格式不正确")
+    }
     let buf
     try {
       const parts = await toArray(stream)
@@ -59,7 +63,7 @@ class FileController extends Controller {
       throw e
     }
     const filename = encodeURIComponent(name || stream.fields.name || getRandomSalt(2, 18)) +
-      path.extname(stream.filename).toLowerCase()
+      ext
     const target = path.join(app.config.static.dir, filename)
     await fs.writeFile(target, buf)
     // ctx.body = target
