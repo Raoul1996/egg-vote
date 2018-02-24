@@ -143,7 +143,7 @@ class UserController extends Controller {
 
   async captcha() {
     const {ctx, service} = this
-    const {captcha, txt} = await service.user.ccap()
+    const {captcha, txt} = await service.user.captcha()
     ctx.body = captcha
     ctx.type = 'image/png'
     ctx.session.captcha = txt

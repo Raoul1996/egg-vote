@@ -43,3 +43,11 @@ exports.email = {
   enable: true,
   package: 'egg-mail'
 }
+exports.captcha = {
+  enable: true,
+  package: 'egg-captcha'
+}
+exports.qiniu = {
+  enable: true,
+  package: 'egg-qiniu-upload'
+}

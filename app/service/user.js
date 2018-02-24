@@ -1,8 +1,6 @@
 const Service = require('egg').Service
 const {cryptoPwd, getRandomSalt} = require('../utils/pass')
 const {createMail} = require('../utils/mail')
-const {captchaConf} = require('../config')
-const ccap = require('ccap')(captchaConf)
 const crypto = require('crypto')
 
 class UserService extends Service {
@@ -97,8 +95,9 @@ class UserService extends Service {
     }
   }
 
-  async ccap() {
-    const ary = ccap.get()
+  async captcha() {
+    const {app} = this
+    const ary = app.captcha.generate()
     return {captcha: ary[1], txt: ary[0]}
   }
 

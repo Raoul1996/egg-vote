@@ -1,20 +1,3 @@
-const {qiniuConfig, qiniuConfig: {ak, sk}} = require('../config')
-const {getRandomSalt} = require('../utils/pass')
-const qiniu = require('qiniu')
-const mac = new qiniu.auth.digest.Mac(ak, sk)
-const options = {
-  // scope: `${qiniuConfig.bucket}:${keyToOverwrite}`,
-  scope: `${qiniuConfig.bucket}`,
-  expires: 24 * 60 * 60
-}
-const putPolicy = new qiniu.rs.PutPolicy(options)
-const uploadToken = putPolicy.uploadToken(mac)
-const config = new qiniu.conf.Config()
-// 华东区对应的是z0
-config.zone = qiniu.zone.Zone_z0
-const formUploader = new qiniu.form_up.FormUploader(config)
-const putExtra = new qiniu.form_up.PutExtra()
-const bucketManager = new qiniu.rs.BucketManager(mac, config)
 const Service = require('egg').Service
 
 class FileService extends Service {
@@ -81,57 +64,19 @@ class FileService extends Service {
    */
   async upload2Qiniu(payload, path) {
     // TODO: Config the https domain
-    // const keyToOverwrite = payload.realname
-    const localFile = path
-    // const key = payload.realname
-    const extname = payload.realname.split('.')[payload.realname.split('.').length - 1]
-    const key = getRandomSalt(2, 18) + "." + extname
+    const {app} = this
     // 如果文件已经存在，就没有必要上传七牛了
     const isExist = await this.fileExist(payload)
     if (isExist && isExist.id) {
       return {url: isExist.qiniu, key: isExist.key}
     } else {
-      return new Promise((resolved, reject) => {
-        formUploader.putFile(uploadToken, key, localFile, putExtra,
-          function (respErr, respBody, respInfo) {
-            if (respErr) {
-              reject(respErr)
-            }
-            if (respInfo.statusCode === 200) {
-              resolved(respBody)
-            } else {
-              resolved(respBody)
-            }
-          })
-        // 拼接出真实的访问链接并返回
-      }).then(res => {
-        return {
-          url: qiniuConfig.baseUrl + encodeURI(res.key),
-          key: res.key
-        }
-      })
+      return await app.qiniu.upload(path, payload.realname)
     }
   }
 
   async info(payload) {
-    const {ctx} = this
-    return new Promise((resolved, reject) => {
-      bucketManager.stat(qiniuConfig.bucket, payload.key, function (err, respBody, respInfo) {
-        if (err) {
-          ctx.throw(500, err)
-          reject(err)
-        } else {
-          if (respInfo.statusCode === 200) {
-            resolved(respBody)
-          } else {
-            // throw respInfo.statusCode
-            resolved(respBody)
-          }
-        }
-      })
-      // const res = await mysql.get('file', {user_id: payload.id, key: payload.key})
-      // return res
-    })
+    const {app} = this
+    return await app.qiniu.info(payload.key || '')
   }
 
   /**

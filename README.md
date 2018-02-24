@@ -52,6 +52,9 @@
 - 向 [egg-mail](https://github.com/zhouzhi3859/egg-mail) plugin 发 pr
 - [package.json](package.json) 中指定从 github 拉取 egg-mail 依赖
 
+### 20180224 初九
+- 封装 [egg-captcha](https://github.com/raoul1996/egg-captcha) 插件
+- 封装 [egg-qiniu-upload](https://github.com/raoul1996/egg-qiniu-upload) 插件
 ### npm scripts
 
 - Use `npm run lint` to check code style.
