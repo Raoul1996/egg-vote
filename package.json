@@ -15,7 +15,7 @@
     "egg-mysql": "^3.0.0",
     "egg-passport": "^2.0.1",
     "egg-passport-github": "^1.0.0",
-    "egg-qiniu-upload": "^1.0.7",
+    "egg-qiniu-upload": "^1.1.3",
     "egg-redis": "^1.0.2",
     "egg-scripts": "^2.5.1",
     "egg-session-redis": "^1.0.0",

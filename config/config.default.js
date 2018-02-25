@@ -93,7 +93,7 @@ module.exports = app => {
   }
   exports.jwt = {
     secret: cert,
-    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
+    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60 * 100),
     expiresIn: '24h',
     algorithm: 'RS256',
     enable: true,
