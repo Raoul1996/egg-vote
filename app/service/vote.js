@@ -2,7 +2,8 @@ const Service = require('egg').Service
 
 class VoteService extends Service {
   async list() {
-    const res = await this.app.mysql.select('projects')
+    const {app: {mysql}} = this
+    const res = await mysql.select('projects')
     return res
   }
 
@@ -18,6 +19,35 @@ class VoteService extends Service {
   async own(payload) {
     const {app: {mysql}} = this
     const res = await mysql.get('projects', {user_id: payload.user_id, id: payload.id})
+    return res
+  }
+
+  async del({user_id, id}) {
+    const {ctx, app: {mysql}} = this
+    const projectRow = {
+      user_id,
+      id
+    }
+    const problemRow = {
+      project_id: id
+    }
+    const isExist = await mysql.get('projects', projectRow)
+    if (isExist && (isExist.user_id !== user_id)) {
+      ctx.throw(406, '该投票无权删除')
+      return false
+    }
+    const coon = await mysql.beginTransaction()
+    let res = false
+    try {
+      const temp1 = await coon.delete('projects', projectRow)
+      const temp2 = await coon.delete('problems', problemRow)
+      await coon.commit()
+      res = temp1.affectedRows === 1 && temp2.affectedRows >= 1
+    } catch (e) {
+      await coon.rollback()
+      ctx.throw(500, e)
+      throw e
+    }
     return res
   }
 }

@@ -35,7 +35,15 @@ class VoteController extends Controller {
   }
 
   async del() {
-    this.ctx.body = {test: 'test'}
+    const {ctx, service} = this
+    const user_id = ctx.state.user.id
+    const {id} = ctx.params
+    const res = await service.vote.del({user_id, id: +id})
+    if (res) {
+      ctx.helper.success({ctx, res: '投票删除成功'})
+      return
+    }
+    ctx.helper.fail({ctx, res: '投票删除失败，请检查投票是否存在', code: 10016})
   }
 
   async create() {

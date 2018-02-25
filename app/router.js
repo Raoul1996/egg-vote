@@ -26,7 +26,7 @@ module.exports = app => {
     .get('/vote/list', controller.vote.index)
     .get('/vote/own', controller.vote.ownList)
     .get('/vote/own/:id', controller.vote.own)
-    .post('/vote/del/:id', controller.vote.del)
+    .delete('/vote/del/:id', controller.vote.del)
     .post('/vote/create', controller.vote.create)
     .post('/vote/part/:id', controller.vote.part)
     .get('/vote/detail/:id', controller.vote.detail)
