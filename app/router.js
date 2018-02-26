@@ -21,7 +21,7 @@ module.exports = app => {
     .get('/verify', controller.user.verify)
     .post('/user/avatar', controller.file.avatar)
     .post('/file/upload', controller.file.upload)
-    .post('/file/del', controller.file.del)
+    .delete('/file/del', controller.file.del)
     .post('/file/info', controller.file.info)
     .get('/vote/list', controller.vote.index)
     .get('/vote/own', controller.vote.ownList)
