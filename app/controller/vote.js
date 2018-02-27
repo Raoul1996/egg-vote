@@ -59,7 +59,15 @@ class VoteController extends Controller {
   }
 
   async part() {
-    this.ctx.body = {test: 'test'}
+    const {ctx, service} = this
+    const {id} = ctx.params
+    const {options} = ctx.request.body
+    const res = await service.vote.part({id, options})
+    if (res) {
+      ctx.helper.success({ctx, res: '投票成功'})
+      return
+    }
+    ctx.helper.fail({ctx, res, code: 10021})
   }
 
   async detail() {

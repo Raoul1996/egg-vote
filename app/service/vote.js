@@ -114,6 +114,36 @@ class VoteService extends Service {
     }
   }
 
+  async part(payload) {
+    const {ctx, app: {mysql}} = this
+    const {id, options} = payload
+    const isExist = await mysql.get('projects', {id})
+    if (!isExist || !isExist.id) {
+      ctx.throw(404, '投票不存在')
+      return
+    }
+    const problemArray = await mysql.select('problems', {
+      where: {project_id: id},
+      columns: ['id']
+    })
+    const coon = await mysql.beginTransaction()
+    try {
+      options.forEach(async (item) => {
+        const _sql = `UPDATE problems SET count=count+1 WHERE
+      project_id="${id}" AND id="${problemArray[item].id}"`
+        const res = await coon.query(_sql)
+        if (res.affectedRows !== 1) {
+          throw new Error('更新失败')
+        }
+      })
+      await coon.commit()
+      return true
+    } catch (e) {
+      ctx.throw(500, e)
+      throw e
+    }
+  }
+
   async statistic(payload) {
     const {ctx, app: {mysql}} = this
     const isExist = await mysql.get('projects', {id: payload.id})
