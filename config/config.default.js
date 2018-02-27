@@ -188,5 +188,6 @@ module.exports = app => {
     baseUrl: 'http://p4htepdga.bkt.clouddn.com/',
     zone: 'Zone_z0',
   }
+  exports.xlsx = {}
   return exports
 }

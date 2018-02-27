@@ -55,6 +55,14 @@
 ### 20180224 初九
 - 封装 [egg-captcha](https://github.com/raoul1996/egg-captcha) 插件
 - 封装 [egg-qiniu-upload](https://github.com/raoul1996/egg-qiniu-upload) 插件
+### 20180225 初十
+- 创建投票相关接口
+- 获取投票列表，删除投票
+### 20180226 十一
+- 创建投票，提交投票
+### 20180227 十二
+- 创建 xlsx 解析功能
+- 封装 [egg-xlsx](https://github.com/Raoul1996/egg-xlsx.git) plugin
 ### npm scripts
 
 - Use `npm run lint` to check code style.

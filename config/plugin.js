@@ -51,3 +51,7 @@ exports.qiniu = {
   enable: true,
   package: 'egg-qiniu-upload'
 }
+exports.xlsx = {
+  enable: true,
+  package: 'egg-xlsx'
+}

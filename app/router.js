@@ -31,4 +31,5 @@ module.exports = app => {
     .post('/vote/part/:id', controller.vote.part)
     .get('/vote/detail/:id', controller.vote.detail)
     .get('/vote/statistic/:id', controller.vote.statistic)
+    .post('/xlsx', controller.xlsx.index)
 }
