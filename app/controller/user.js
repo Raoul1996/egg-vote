@@ -89,7 +89,6 @@ class UserController extends Controller {
       ctx.helper.fail({ctx, res: '密码不匹配', code: 10002})
       return
     }
-    // TODO: Validate captcha
     const res = await service.user.forget({mobile, pwd, email})
     if (res) {
       ctx.helper.success({ctx, res: '密码重置成功'})
