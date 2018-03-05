@@ -9,19 +9,15 @@ class UserService extends Service {
   // }
   async login(payload) {
     const {ctx} = this
-    try {
-      const {id, name, mobile, email, avatar, salt, pwd, status} =
-        await this.findByEmail(payload.email)
-      if (!id) {
-        ctx.throw(404, 'user not found')
-      }
-      if (pwd !== cryptoPwd(payload.pwd, salt)) {
-        ctx.throw(404, 'password is not match')
-      }
-      return {id, name, mobile, email, avatar, status}
-    } catch (e) {
-      throw e
+    const res = await this.findByEmail(payload.email)
+    if (!res || !res.id) {
+      ctx.throw(404, 'user not found')
     }
+    if (res.pwd !== cryptoPwd(payload.pwd, res.salt)) {
+      ctx.throw(404, 'password is not match')
+    }
+    const {id, name, mobile, email, avatar, status} = res
+    return {id, name, mobile, email, avatar, status}
   }
 
   async register(payload) {
@@ -88,9 +84,11 @@ class UserService extends Service {
 
   async info(payload) {
     try {
-      const {id, email, mobile, avatar} = await this.findById(payload.id)
-      return {id, email, mobile, avatar}
+      const res = await this.findById(payload.id)
+      const {id, email, name, mobile, avatar} = res
+      return {id, email, name, mobile, avatar}
     } catch (e) {
+      this.ctx.throw(404, '查找用户信息失败')
       throw e
     }
   }
