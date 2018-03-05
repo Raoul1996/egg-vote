@@ -16,7 +16,6 @@ module.exports = () => {
     const rs = Math.ceil(new Date().getTime() - start)
 
     this.set('X-Response-Time', rs)
-
     const ext = path.extname(this.url).toLocaleLowerCase()
     const isSkip = skipExt.indexOf(ext) !== -1 && this.status < 400
 

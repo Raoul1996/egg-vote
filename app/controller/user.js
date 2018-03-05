@@ -43,6 +43,8 @@ class UserController extends Controller {
     const {ctx, service} = this
     ctx.validate(loginRule)
     const payload = ctx.request.body
+    console.log(payload.captcha)
+    console.log(ctx.session.captcha)
     if (payload.captcha !== ctx.session.captcha) {
       ctx.helper.fail({ctx, res: '验证码错误', code: 10010})
       return
@@ -146,7 +148,9 @@ class UserController extends Controller {
     const {captcha, txt} = await service.user.captcha()
     ctx.body = captcha
     ctx.type = 'image/png'
+    console.log(txt)
     ctx.session.captcha = txt
+    console.log(ctx.session)
   }
 
   async txt() {

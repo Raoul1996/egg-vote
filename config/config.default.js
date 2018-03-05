@@ -1,11 +1,21 @@
 const path = require('path')
 const fs = require('fs')
+const ip = require('ip')
 const cert = fs.readFileSync(__dirname + '/../id_rsa.enc')
 module.exports = app => {
   const exports = {}
   // exports.siteFile = {
   //   '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico'))
   // }
+  const domainWhiteList = []
+  const localIP = ip.address()
+  const portList = [8080, 7001]
+  portList.forEach(port => {
+    domainWhiteList.push(`http://localhost:${port}`)
+    domainWhiteList.push(`http://127.0.0.1:${port}`)
+    domainWhiteList.push(`http://${localIP}:${port}`)
+  })
+  domainWhiteList.push('.raoul1996.cn')
   exports.bodyParser = {
     enable: true
   }
@@ -83,13 +93,23 @@ module.exports = app => {
   exports.errorHandler = {
     match: '/'
   }
+  exports.cors = {
+    credentials: true
+  }
   exports.security = {
+    xframe: {
+      enable: false
+    },
+    csp: {
+      enable: false
+    },
     csrf: {
       enable: false
     },
     xssProtection: {
-      enable: true
-    }
+      enable: false
+    },
+    domainWhiteList
   }
   exports.jwt = {
     secret: cert,
@@ -124,7 +144,7 @@ module.exports = app => {
   }
   exports.passportGithub = {
     key: '8b79e52fc393da70ef6f',
-    secret: '37d7ad74f6d6558d0a3975f79d6fcbdea58de6ac'
+    secret: process.env.votepass
   }
   exports.onerror = {
     errorPageUrl: (err, ctx) => ctx.errorPageUrl || '/500'

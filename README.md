@@ -55,14 +55,56 @@
 ### 20180224 初九
 - 封装 [egg-captcha](https://github.com/raoul1996/egg-captcha) 插件
 - 封装 [egg-qiniu-upload](https://github.com/raoul1996/egg-qiniu-upload) 插件
+
 ### 20180225 初十
 - 创建投票相关接口
 - 获取投票列表，删除投票
+
 ### 20180226 十一
 - 创建投票，提交投票
+
 ### 20180227 十二
 - 创建 xlsx 解析功能
 - 封装 [egg-xlsx](https://github.com/Raoul1996/egg-xlsx.git) plugin
+
+### 20180304 - 20180305
+- 忙活开学的一堆事情
+- 向 [egg-cors](https://github.com/eggjs/egg-cors.git) 提交 [PR](https://github.com/eggjs/egg-cors/pull/10)
+- egg-cors 跨域问题解决方案(不携带 cookie)：
+    ```js
+    // {app_root}/config/plugin.js
+    exports.cors = {
+      enable: true,
+      package: 'egg-cors',
+    };
+    ```
+    ```js
+    // {app_root}/config/config.default.js
+    exports.cors = {}
+    exports.security = {
+      domainWhiteList: [ 'http://localhost:8080' ]
+    };
+    ```
+- egg-cors 跨域问题解决方案(在使用 session 的时候需要携带 cookie)
+    ```js
+    // {app_root}/config/plugin.js
+    exports.cors = {
+      enable: true,
+      package: 'egg-cors',
+    };
+    ```
+    ```js
+    // {app_root}/config/config.default.js
+      exports.cors = {
+        credentials: true
+      }
+    exports.security = {
+      csrf: {
+          enable: false
+        },
+      domainWhiteList: [ 'http://localhost:8080' ]
+    };
+    ```
 ### npm scripts
 
 - Use `npm run lint` to check code style.
