@@ -3,7 +3,6 @@ module.exports = () => {
   const exports = {}
   const localIP = ip.address()
   const domainWhiteList = []
-  const portList = [12012, 7001, 8080]
   const portList = [8080, 7001]
   portList.forEach(port => {
     domainWhiteList.push(`http://localhost:${port}`)

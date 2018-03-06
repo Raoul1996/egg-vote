@@ -3,10 +3,9 @@ const fs = require('fs')
 const cert = fs.readFileSync(__dirname + '/../id_rsa.enc')
 module.exports = app => {
   const exports = {}
-  // exports.siteFile = {
-  //   '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico'))
-  // }
-  const domainWhiteList = []
+  exports.siteFile = {
+    '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'favicon.ico'))
+  }
   exports.bodyParser = {
     enable: true
   }
