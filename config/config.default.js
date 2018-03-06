@@ -1,6 +1,5 @@
 const path = require('path')
 const fs = require('fs')
-const ip = require('ip')
 const cert = fs.readFileSync(__dirname + '/../id_rsa.enc')
 module.exports = app => {
   const exports = {}
@@ -8,14 +7,6 @@ module.exports = app => {
   //   '/favicon.ico': fs.readFileSync(path.join(app.baseDir, 'app/web/asset/images/favicon.ico'))
   // }
   const domainWhiteList = []
-  const localIP = ip.address()
-  const portList = [8080, 7001]
-  portList.forEach(port => {
-    domainWhiteList.push(`http://localhost:${port}`)
-    domainWhiteList.push(`http://127.0.0.1:${port}`)
-    domainWhiteList.push(`http://${localIP}:${port}`)
-  })
-  domainWhiteList.push('.raoul1996.cn')
   exports.bodyParser = {
     enable: true
   }
@@ -94,6 +85,8 @@ module.exports = app => {
     match: '/'
   }
   exports.cors = {
+    // origin: 'https://votes.raoul1996.cn',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
     credentials: true
   }
   exports.security = {
@@ -108,8 +101,7 @@ module.exports = app => {
     },
     xssProtection: {
       enable: false
-    },
-    domainWhiteList
+    }
   }
   exports.jwt = {
     secret: cert,
