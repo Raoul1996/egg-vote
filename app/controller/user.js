@@ -129,7 +129,6 @@ class UserController extends Controller {
     }
     ctx.helper.fail({ctx, res: msg, code: 10011})
   }
-
   async verify() {
     const {ctx, service} = this
     const res = await service.user.verify(ctx.req.query.active)

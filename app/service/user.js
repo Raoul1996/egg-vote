@@ -117,7 +117,7 @@ class UserService extends Service {
             return await email.sendEmail('激活邮件', "", payload.mail,
               [createMail(Object.assign({}, res, row))])
           } else {
-            return {message: "不要频繁发送邮件，请于 3 分钟后重试"}
+            return {msg: "不要频繁发送邮件，请于 3 分钟后重试"}
           }
         } else {
           ctx.throw(406, '账户已经激活，无需再次发送激活邮件')

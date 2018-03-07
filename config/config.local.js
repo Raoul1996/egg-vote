@@ -18,9 +18,10 @@ module.exports = app => {
 
   const localIP = ip.address()
   const domainWhiteList = [];
-  [7001, 8080].forEach(port => {
+  [7001, 8080, 8081].forEach(port => {
     domainWhiteList.push(`http://localhost:${port}`)
     domainWhiteList.push(`http://127.0.0.1:${port}`)
+    domainWhiteList.push(`http://0.0.0.0:${port}`)
     domainWhiteList.push(`http://${localIP}:${port}`)
   })
   exports.security = {domainWhiteList}
