@@ -62,7 +62,8 @@ class FileController extends Controller {
       await sendToWormhole(stream)
       throw e
     }
-    const filename = encodeURIComponent(name || stream.fields.name || getRandomSalt(2, 18)) +
+    // 在服务端由于使用了 https， 开启了 nginx 的缓存功能，所以通过生成随机数的方式进行缓存控制
+    const filename = encodeURIComponent(name || getRandomSalt(2, 18)) +
       ext
     const target = path.join(app.config.static.dir, filename)
     await fs.writeFile(target, buf)

@@ -19,6 +19,7 @@
     "egg-redis": "^1.0.2",
     "egg-scripts": "^2.5.1",
     "egg-session-redis": "^1.0.0",
+    "egg-socket.io": "^4.0.7",
     "egg-validate": "^1.0.0",
     "egg-xlsx": "0.0.4",
     "ip": "^1.1.5",
@@ -43,9 +44,9 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-egg-vote --port=12012",
+    "start": "egg-scripts start --daemon --title=egg-server-egg-vote --port=12012 --sticky",
     "stop": "egg-scripts stop --title=egg-server-egg-vote",
-    "dev": "egg-bin dev",
+    "dev": "egg-bin dev --sticky",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",

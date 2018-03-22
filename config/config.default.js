@@ -200,5 +200,14 @@ module.exports = app => {
     zone: 'Zone_z0',
   }
   exports.xlsx = {}
+  exports.io = {
+    init: {wsEngine: 'uws'},
+    namespace: {
+      '/': {
+        connectionMiddleware: [],
+        packetMiddleware: []
+      },
+    }
+  }
   return exports
 }

@@ -55,3 +55,7 @@ exports.xlsx = {
   enable: true,
   package: 'egg-xlsx'
 }
+exports.io = {
+  enable: true,
+  package: 'egg-socket.io'
+}
