@@ -24,10 +24,13 @@ before_install:
 - sudo service mysql restart
 - mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS vote_test;'
 install:
+- npm install -g codecov
 - npm install
 before_script:
 script:
- - npm run ci
+- npm run ci
+# - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+- codecov
 after_success:
 - tar -jcf egg.tar.bz2 * .*
 - scp egg.tar.bz2 ubuntu@123.207.252.230:~/
@@ -44,3 +47,4 @@ branches:
   - master
 env:
   global:
+  - CODECOV_TOKEN="a7b5f136-6a3e-4e2f-afc4-4f3082cec1b9"

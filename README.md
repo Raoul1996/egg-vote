@@ -1,5 +1,6 @@
 # egg-vote
 [![Build Status](https://travis-ci.org/Raoul1996/egg-vote.svg?branch=master)](https://travis-ci.org/Raoul1996/egg-vote)
+[![codecov](https://codecov.io/gh/Raoul1996/egg-vote/branch/master/graph/badge.svg)](https://codecov.io/gh/Raoul1996/egg-vote)
 [![bitHound Overall Score](https://www.bithound.io/github/Raoul1996/egg-vote/badges/score.svg)](https://www.bithound.io/github/Raoul1996/egg-vote)
 [![bitHound Dependencies](https://www.bithound.io/github/Raoul1996/egg-vote/badges/dependencies.svg)](https://www.bithound.io/github/Raoul1996/egg-vote/master/dependencies/npm)
 [![bitHound Dev Dependencies](https://www.bithound.io/github/Raoul1996/egg-vote/badges/devDependencies.svg)](https://www.bithound.io/github/Raoul1996/egg-vote/master/dependencies/npm)

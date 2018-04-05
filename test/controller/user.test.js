@@ -468,7 +468,7 @@ describe('test/controller/user.test.js', () => {
           msg: "^V^"
         })
     })
-    it('should POST forget/ 200 reset password fail 10006', () => {
+    it('should POST update/ 200 reset password fail 10006', () => {
       app.mockCsrf()
       app.mockSession({
         captcha: "Q7WURU",
