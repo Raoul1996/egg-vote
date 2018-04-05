@@ -105,6 +105,9 @@
       domainWhiteList: [ 'http://localhost:8080' ]
     };
     ```
+### 20180406
+- 开始增加单元测试，已经测试完成 `/user` `/login` `/register` `/forget` `/update` 控制器的测试
+
 ### npm scripts
 
 - Use `npm run lint` to check code style.

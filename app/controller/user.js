@@ -49,8 +49,6 @@ class UserController extends Controller {
     }
     const res = await service.user.login(payload)
     if (res && res.id) {
-      // 暂时为了测试
-      // res.token = this.jwt(res.id)
       ctx.helper.success({ctx, res})
       return
     }
@@ -153,19 +151,11 @@ class UserController extends Controller {
     ctx.body = ctx.session.captcha
   }
 
-  async redis() {
-    const {ctx, app} = this
-    await app.redis.set('foo', 'bar')
-    ctx.body = await app.redis.get('foo')
-  }
-
-  jwt(id) {
-    const {app} = this
-    return app.jwt.sign({
-      id: id,
-      exp: app.config.jwt.exp
-    }, app.config.jwt.secret)
-  }
+  // async redis() {
+  //   const {ctx, app} = this
+  //   await app.redis.set('foo', 'bar')
+  //   ctx.body = await app.redis.get('foo')
+  // }
 }
 
 module.exports = UserController

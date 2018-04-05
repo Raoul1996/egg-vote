@@ -2,9 +2,9 @@
 
 const {app, mock, assert} = require('egg-mock/bootstrap')
 describe('test/controller/user.test.js', () => {
+  let token = null
   afterEach(mock.restore)
   describe('GET user/', () => {
-    let token = null
     // get a useful token
     before(async () => {
       app.mockCsrf()
@@ -194,6 +194,28 @@ describe('test/controller/user.test.js', () => {
           data: "验证码错误"
         })
     })
+    it('should POST register/ 200 register fail 9999', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'register', {})
+      return app.httpRequest()
+        .post('/register')
+        .type('form')
+        .send({
+          name: "tests",
+          email: "tellss@mail.com",
+          mobile: "15033513589",
+          pwd: "123456",
+          confirm: "123456",
+          captcha: "Q7WURU"
+        }).expect(200, {
+          code: 9999,
+          data: {}
+        })
+    })
     it('should POST register/ 200 OK', () => {
       app.mockCsrf()
       app.mockSession({
@@ -230,18 +252,92 @@ describe('test/controller/user.test.js', () => {
           }, msg: "^V^"
         })
     })
-    it('should POST register/ 200 register fail 9999', () => {
+  })
+  describe('POST forget/', () => {
+    it('should POST forget/ 422 validation failed', async () => {
+      app.mockCsrf()
+      const err = new Error('validation failed')
+      err.status = 422
+      app.mockService('user', 'forget', err)
+      const r = await app.httpRequest()
+        .post('/forget')
+        .type('form')
+        .send({})
+      assert(r.status === 422)
+    })
+    it('should POST forget/ 200 password not match 10002', () => {
       app.mockCsrf()
       app.mockSession({
         captcha: "Q7WURU",
         uid: 123
       })
-      app.mockService('user', 'register', {})
       return app.httpRequest()
-        .post('/register')
+        .post('/forget')
         .type('form')
         .send({
-          name: "tests",
+          "email": "tellss@mail.com",
+          "mobile": "15033513589",
+          "pwd": "123456",
+          "confirm": "1234567",
+          "captcha": "Q7WURU"
+        }).expect(200, {
+          code: 10002,
+          data: "密码不匹配"
+        })
+    })
+    it('should POST forget/ 200 captcha error 10010', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      return app.httpRequest()
+        .post('/forget')
+        .type('form')
+        .send({
+          "email": "tellss@mail.com",
+          "mobile": "15033513589",
+          "pwd": "123456",
+          "confirm": "123456",
+          "captcha": "Q7WUR"
+        }).expect(200, {
+          code: 10010,
+          data: "验证码错误"
+        })
+    })
+    it('should POST forget/ 200 ok', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'forget', true)
+      return app.httpRequest()
+        .post('/forget')
+        .type('form')
+        .send({
+          email: "tellss@mail.com",
+          mobile: "15033513589",
+          pwd: "123456",
+          confirm: "123456",
+          captcha: "Q7WURU"
+        }).expect(200, {
+          code: 0,
+          data: "密码重置成功",
+          msg: "^V^"
+        })
+    })
+    it('should POST forget/ 200 reset password fail 9999', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'forget', false)
+      return app.httpRequest()
+        .post('/forget')
+        .type('form')
+        .send({
           email: "tellss@mail.com",
           mobile: "15033513589",
           pwd: "123456",
@@ -249,8 +345,158 @@ describe('test/controller/user.test.js', () => {
           captcha: "Q7WURU"
         }).expect(200, {
           code: 9999,
-          data: {}
+          data: false
         })
     })
+  })
+  describe('POST update/', () => {
+    before(async () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'login', {
+        id: 5,
+        email: "tellss@gmail.com",
+        // TODO: 这里的 Token 怎么获取
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZXhwIjoxNTMxNTg0OTk4LCJpYXQiOjE1MjI5NDUwMDR9.GNIeSfazlHT6o5cdm2MzNPtuWcZIh-Xz9YdYki6CgEo"
+      })
+      const r = await app.httpRequest()
+        .post('/login')
+        .type('form')
+        .send({
+          "email": "tells@gmail.com",
+          "pwd": "123456",
+          "captcha": "Q7WURU"
+        })
+      token = r.body.data.token
+    })
+    it('should POST update/ 401 unauthorized', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'update', true)
+      return app.httpRequest()
+        .post('/update')
+        .type('form')
+        .set('Authorization', 'Bearer ' + null)
+        .send({
+          "old": "123456",
+          "mobile": "15033513589",
+          "pwd": "1234567",
+          "confirm": "1234567",
+          "captcha": "Q7WURU"
+        }).expect(401)
+    })
+    it('should POST update/ 422 validation failed', async () => {
+      app.mockCsrf()
+      const err = new Error('validation failed')
+      err.status = 422
+      app.mockService('user', 'forget', err)
+      const r = await app.httpRequest()
+        .post('/update')
+        .set('Authorization', 'Bearer ' + token)
+        .type('form')
+        .send({})
+      assert(r.status === 422)
+    })
+    it('should POST update/ 200 password not match 10002', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      return app.httpRequest()
+        .post('/update')
+        .type('form')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          "old": "123456",
+          "mobile": "15033513589",
+          "pwd": "1234567",
+          "confirm": "12345678",
+          "captcha": "Q7WURU"
+        }).expect(200, {
+          code: 10002,
+          data: "密码不匹配"
+        })
+    })
+    it('should POST update/ 200 captcha error 10010', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      return app.httpRequest()
+        .post('/update')
+        .type('form')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          "old": "123456",
+          "mobile": "15033513589",
+          "pwd": "1234567",
+          "confirm": "1234567",
+          "captcha": "Q7WUR"
+        }).expect(200, {
+          code: 10010,
+          data: "验证码错误"
+        })
+    })
+    it('should POST update/ 200 ok', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'update', true)
+      return app.httpRequest()
+        .post('/update')
+        .type('form')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          "old": "123456",
+          "mobile": "15033513589",
+          "pwd": "1234567",
+          "confirm": "1234567",
+          "captcha": "Q7WURU"
+        }).expect(200, {
+          code: 0,
+          data: "密码修改成功",
+          msg: "^V^"
+        })
+    })
+    it('should POST forget/ 200 reset password fail 10006', () => {
+      app.mockCsrf()
+      app.mockSession({
+        captcha: "Q7WURU",
+        uid: 123
+      })
+      app.mockService('user', 'update', false)
+      return app.httpRequest()
+        .post('/update')
+        .type('form')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          "old": "123456",
+          "mobile": "15033513589",
+          "pwd": "1234567",
+          "confirm": "1234567",
+          "captcha": "Q7WURU"
+        }).expect(200, {
+          code: 10006,
+          data: "密码修改失败"
+        })
+    })
+  })
+  describe('POST send/', () => {
+  })
+  describe('GET verify/', () => {
+  })
+  describe('GET captcha/', () => {
+  })
+  describe('GET txt/', () => {
   })
 })
