@@ -4,9 +4,10 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const {router, controller, io} = app
+  const {router, controller} = app
   router.resources('topics', '/api/v2/topics', controller.topics)
   router.get('/', controller.home.index)
+    .post('/', controller.home.post)
     .get('/api/article/list', controller.app.list)
     .get('/api/article/:id', controller.app.detail)
     .get('/user', controller.user.index)
@@ -32,5 +33,4 @@ module.exports = app => {
     .get('/vote/detail/:id', controller.vote.detail)
     .get('/vote/statistic/:id', controller.vote.statistic)
     .post('/xlsx', controller.xlsx.index)
-  io.of('/').route('server', io.controller.home.server)
 }

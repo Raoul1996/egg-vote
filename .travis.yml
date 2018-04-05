@@ -13,7 +13,7 @@ install:
 - npm install
 before_script:
 script:
- - npm run lint
+ - npm run ci
 after_success:
 - tar -jcf egg.tar.bz2 * .*
 - scp egg.tar.bz2 ubuntu@123.207.252.230:~/

@@ -35,6 +35,7 @@ class UserService extends Service {
       const {id, name, mobile, email, avatar} = await this.findById(insertId)
       return {id, name, mobile, email, avatar}
     } catch (e) {
+      console.log(e)
       throw e
     }
   }
