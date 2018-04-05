@@ -116,7 +116,7 @@ module.exports = app => {
   }
   exports.passportGithub = {
     key: '8b79e52fc393da70ef6f',
-    secret: process.env.votepass
+    secret: process.env.votepass || ''
   }
   exports.onerror = {
     errorPageUrl: (err, ctx) => ctx.errorPageUrl || '/500'
@@ -161,7 +161,7 @@ module.exports = app => {
   }
   exports.email = {
     username: '1259510125@qq.com',
-    password: process.env.qqpass,
+    password: process.env.qqpass || '',
     host: 'smtp.qq.com',
     port: 465,
     sender: '1259510125@qq.com'
@@ -174,8 +174,8 @@ module.exports = app => {
     fontsize: 57, // set font size,default is 57
   }
   exports.qiniu = {
-    ak: process.env.ak,
-    sk: process.env.sk,
+    ak: process.env.ak || '',
+    sk: process.env.sk || '',
     bucket: 'vote',
     baseUrl: 'http://p4htepdga.bkt.clouddn.com/',
     zone: 'Zone_z0',

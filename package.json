@@ -27,7 +27,8 @@
     "moment": "^2.20.1",
     "qiniu": "^7.1.2",
     "stream-to-array": "^2.3.0",
-    "stream-wormhole": "^1.0.3"
+    "stream-wormhole": "^1.0.3",
+    "uws": "^9.14.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
