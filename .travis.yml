@@ -1,4 +1,14 @@
 language: node_js
+sudo: true
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+services:
+- mysql
 node_js:
 - '9'
 directories:
@@ -9,6 +19,10 @@ before_install:
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 - echo -e "Host 123.207.252.230 \n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+- sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('root') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+- sudo mysql_upgrade -uroot -proot
+- sudo service mysql restart
+- mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS vote_test;'
 install:
 - npm install
 before_script:
