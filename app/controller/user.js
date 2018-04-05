@@ -49,7 +49,8 @@ class UserController extends Controller {
     }
     const res = await service.user.login(payload)
     if (res && res.id) {
-      res.token = this.jwt(res.id)
+      // 暂时为了测试
+      // res.token = this.jwt(res.id)
       ctx.helper.success({ctx, res})
       return
     }
@@ -70,7 +71,6 @@ class UserController extends Controller {
     }
     const res = await service.user.register({name, email, mobile, pwd})
     if (res && res.id) {
-      res.token = this.jwt(res.id)
       ctx.helper.success({ctx, res})
       return
     }
@@ -129,6 +129,7 @@ class UserController extends Controller {
     }
     ctx.helper.fail({ctx, res: msg, code: 10011})
   }
+
   async verify() {
     const {ctx, service} = this
     const res = await service.user.verify(ctx.req.query.active)

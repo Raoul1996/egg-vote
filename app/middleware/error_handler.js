@@ -20,7 +20,7 @@ module.exports = () => {
           error: error
         }
       } else {
-        ctx.body = error
+        ctx.body = err
       }
       if (status === 422) {
         ctx.body.detail = error

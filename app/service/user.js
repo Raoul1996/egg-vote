@@ -17,7 +17,7 @@ class UserService extends Service {
       ctx.throw(404, 'password is not match')
     }
     const {id, name, mobile, email, avatar, status} = res
-    return {id, name, mobile, email, avatar, status}
+    return {id, name, mobile, email, avatar, status, token: this.jwt(id)}
   }
 
   async register(payload) {
@@ -33,9 +33,8 @@ class UserService extends Service {
       payload.created_at = this.getNowTime()
       const {insertId} = await app.mysql.insert('users', payload)
       const {id, name, mobile, email, avatar} = await this.findById(insertId)
-      return {id, name, mobile, email, avatar}
+      return {id, name, mobile, email, avatar, token: this.jwt(id)}
     } catch (e) {
-      console.log(e)
       throw e
     }
   }
@@ -164,6 +163,14 @@ class UserService extends Service {
 
   getNowTime() {
     return this.app.mysql.literals.now
+  }
+
+  jwt(id) {
+    const {app} = this
+    return app.jwt.sign({
+      id: id,
+      exp: app.config.jwt.exp
+    }, app.config.jwt.secret)
   }
 }
 

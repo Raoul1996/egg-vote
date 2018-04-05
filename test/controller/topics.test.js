@@ -44,32 +44,32 @@
 //       .expect(404)
 //   })
 //
-//   it('should POST /api/v2/topics/ 422', async function () {
-//     app.mockCsrf()
-//     const err = new Error('validation failed')
-//     err.status = 422
-//     app.mockService('topics', 'create', err)
-//     await app.httpRequest()
-//       .post('/api/v2/topics')
-//       .send({
-//         accesstoken: '123'
-//       })
-//       .expect(422)
-//       .expect({
-//         error: 'Validation Failed',
-//         detail: [
-//           {
-//             message: 'required',
-//             field: 'title',
-//             code: 'missing_field'
-//           },
-//           {
-//             message: 'required',
-//             field: 'content',
-//             code: 'missing_field'
-//           }]
-//       })
-//   })
+//   // it('should POST /api/v2/topics/ 422', async function () {
+//   //   app.mockCsrf()
+//   //   const err = new Error('validation failed')
+//   //   err.status = 422
+//   //   app.mockService('topics', 'create', err)
+//   //   await app.httpRequest()
+//   //     .post('/api/v2/topics')
+//   //     .send({
+//   //       accesstoken: '123'
+//   //     })
+//   //     .expect(422)
+//   //     .expect({
+//   //       error: 'Validation Failed',
+//   //       detail: [
+//   //         {
+//   //           message: 'required',
+//   //           field: 'title',
+//   //           code: 'missing_field'
+//   //         },
+//   //         {
+//   //           message: 'required',
+//   //           field: 'content',
+//   //           code: 'missing_field'
+//   //         }]
+//   //     })
+//   // })
 //
 //   it('should POST /api/v2/topics/ 201', async function () {
 //     app.mockCsrf()

@@ -7,7 +7,6 @@ module.exports = app => {
   const {router, controller} = app
   router.resources('topics', '/api/v2/topics', controller.topics)
   router.get('/', controller.home.index)
-    .post('/', controller.home.post)
     .get('/api/article/list', controller.app.list)
     .get('/api/article/:id', controller.app.detail)
     .get('/user', controller.user.index)
