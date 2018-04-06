@@ -1,5 +1,4 @@
 'use strict'
-const Model = require('../mocks/article/list')
 const Controller = require('egg').Controller
 
 // app.passport.verify(async (ctx, user) => {
