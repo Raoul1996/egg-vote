@@ -1,4 +1,13 @@
 const Controller = require('egg').Controller
+const createRule = {
+  title: {type: 'string', required: true, allowEmpty: false},
+  type: {type: 'string', required: true, allowEmpty: false},
+  max: {type: 'string', required: true, allowEmpty: false},
+  startAt: {type: 'string', required: true, allowEmpty: false},
+  endAt: {type: 'string', required: true, allowEmpty: false},
+  isPublic: {type: 'string', required: true, allowEmpty: false},
+  options: {type: 'array', required: true, allowEmpty: false}
+}
 
 class VoteController extends Controller {
   async index() {
@@ -14,7 +23,7 @@ class VoteController extends Controller {
   async ownList() {
     const {ctx, service} = this
     const {id} = ctx.state.user
-    const res = await service.vote.ownList({user_id: id})
+    const res = await service.vote.own({user_id: id})
     if (res && res.length > 0) {
       ctx.helper.success({ctx, res})
       return
@@ -48,6 +57,7 @@ class VoteController extends Controller {
 
   async create() {
     const {ctx, service} = this
+    ctx.validate(createRule)
     const payload = ctx.request.body
     payload.user_id = ctx.state.user.id
     const res = await service.vote.create(payload)

@@ -112,6 +112,7 @@
 ### 20180407
 
 - `UserController` 测试覆盖率 `100%`
+- 测试 `VoteController`
 
 ### npm scripts
 
