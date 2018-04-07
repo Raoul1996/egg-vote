@@ -8,7 +8,9 @@ const createRule = {
   isPublic: {type: 'string', required: true, allowEmpty: false},
   options: {type: 'array', required: true, allowEmpty: false}
 }
-
+const partRule = {
+  options: {type: 'array', required: true, allowEmpty: false}
+}
 class VoteController extends Controller {
   async index() {
     const {ctx, service} = this
@@ -70,6 +72,7 @@ class VoteController extends Controller {
 
   async part() {
     const {ctx, service} = this
+    ctx.validate(partRule)
     const {id} = ctx.params
     const {options} = ctx.request.body
     const res = await service.vote.part({id, options})

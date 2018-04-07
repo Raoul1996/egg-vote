@@ -135,7 +135,8 @@ describe('test/controller/vote.test.js', () => {
           "endAt": "2018-04-17T17:48:56.000Z",
           "isPublic": false,
           "options": [{"value": "dsfgdfs"}, {"value": "dsfgdsg", "key": 1523036941217}]
-        }).expect(200, {
+        })
+        .expect(200, {
           code: 0,
           data: {
             id: 1,
@@ -144,5 +145,69 @@ describe('test/controller/vote.test.js', () => {
           msg: "^V^"
         })
     })
+    it('should POST vote/create 200 fail 10018', () => {
+      app.mockCsrf()
+      app.mockService('vote', 'create', null)
+      return app.httpRequest()
+        .post('/vote/create')
+        .set('Authorization', 'Bearer ' + token)
+        .type('form')
+        .send({
+          "title": "测试",
+          "password": "123",
+          "type": "1",
+          "max": 1,
+          "startAt": "2018-04-04T17:48:53.000Z",
+          "endAt": "2018-04-17T17:48:56.000Z",
+          "isPublic": false,
+          "options": [{"value": "dsfgdfs"}, {"value": "dsfgdsg", "key": 1523036941217}]
+        }).expect(200, {
+          code: 10018,
+          data: "投票创建失败"
+        })
+    })
   })
+  describe('POST vote/part/:id', () => {
+    it('should POST vote/part/:id 200 OK', () => {
+      app.mockCsrf()
+      app.mockService('vote', 'part', 1)
+      return app.httpRequest()
+        .post('/vote/part/1')
+        .set('Authorization', 'Bearer ' + token)
+        .type('form')
+        .send({
+          "options": [1, 2]
+        })
+        .expect(200, {
+          code: 0,
+          data: "投票成功",
+          msg: "^V^"
+        })
+    })
+    it('should POST vote/part/:id 200 OK', () => {
+      app.mockCsrf()
+      app.mockService('vote', 'part', null)
+      return app.httpRequest()
+        .post('/vote/part/1')
+        .set('Authorization', 'Bearer ' + token)
+        .type('form')
+        .send({
+          "options": [1, 2]
+        })
+        .expect(200, {
+          code: 10021,
+          data: null
+        })
+    })
+  })
+  // describe('GET vote/detail/:id', () => {
+  //   it('should GET vote/detail/:id 200 OK', () => {
+  //
+  //   })
+  // })
+  // describe('GET vote/statistic/:id', () => {
+  //   it('should GET vote/statistic/:id 200 OK', () => {
+  //
+  //   })
+  // })
 })
