@@ -114,6 +114,10 @@
 - `UserController` 测试覆盖率 `100%`
 - 测试 `VoteController`
 
+### 20180506
+
+- 根据 `ctx.header['user-agent']` 确定来访者身份，如果不是浏览器、curl、postman、搜索引擎爬虫的话，就拒绝处理
+- 好像没做点啥，其实是想做 prerender 的。。。。
 ### npm scripts
 
 - Use `npm run lint` to check code style.

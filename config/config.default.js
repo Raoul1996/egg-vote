@@ -60,7 +60,7 @@ module.exports = app => {
     agent: true
   }
   exports.middleware = ['access',
-    'errorHandler']
+    'errorHandler','prerender']
   exports.errorHandler = {
     match: '/'
   }
