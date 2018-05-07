@@ -118,6 +118,11 @@
 
 - 根据 `ctx.header['user-agent']` 确定来访者身份，如果不是浏览器、curl、postman、搜索引擎爬虫的话，就拒绝处理
 - 好像没做点啥，其实是想做 prerender 的。。。。
+
+### 20180507
+
+- 做了一下 prerender 中间件，对搜索引擎爬虫的请求使用无头浏览器渲染之后再返回。但是由于无头浏览器对性能影响太严重，所以设置了缓存、限制了请求频率
+- 具体参考[中间件](app/middleware/prerender.js)
 ### npm scripts
 
 - Use `npm run lint` to check code style.
