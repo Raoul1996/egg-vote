@@ -8,7 +8,7 @@
     "egg": "^2.6.0",
     "egg-bizerror": "^2.1.2",
     "egg-captcha": "^1.1.0",
-    "egg-cors": "^2.0.0",
+    "egg-cors": "^3.0.0",
     "egg-jwt": "^3.0.0",
     "egg-mail": "^1.0.7",
     "egg-mysql": "^3.0.0",
